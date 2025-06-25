@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunStyle - Roupa Personalizada de Verão</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #ff9a56 0%, #ffb347 50%, #ffd700 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(255, 154, 86, 0.3);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .nav-links {
+            display: none;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #ff9a56 0%, #ffb347 50%, #ffd700 100%);
+            box-shadow: 0 4px 20px rgba(255, 154, 86, 0.3);
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            padding: 1rem 0;
+        }
+
+        .mobile-menu li {
+            text-align: center;
+            padding: 0.5rem 0;
+        }
+
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 1rem;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Video Background */
+        .hero-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg, 
+                rgba(135, 206, 235, 0.2) 0%, 
+                rgba(152, 251, 152, 0.2) 50%,
+                rgba(255, 182, 193, 0.2) 100%
+            );
+            z-index: 2;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            z-index: 3;
+            padding: 0 1rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 4;
+            position: relative;
+            width: 100%;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            animation: slideInDown 1s ease-out;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            color: white;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+            animation: slideInUp 1s ease-out 0.3s both;
+            line-height: 1.4;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: clamp(0.8rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
+            border: none;
+            border-radius: 50px;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Products Section */
+        .products {
+            padding: clamp(3rem, 8vw, 5rem) 0;
+            position: relative;
+            z-index: 3;
+            background: transparent;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 6vw, 2.5rem);
+            color: white;
+            margin-bottom: clamp(2rem, 6vw, 3rem);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            line-height: 1.2;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: clamp(1rem, 4vw, 2rem);
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: clamp(1.5rem, 4vw, 2rem);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .product-icon {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 1rem;
+        }
+
+        .product-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            line-height: 1.3;
+        }
+
+        .product-card p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            line-height: 1.5;
+        }
+
+        /* Features Section */
+        .features {
+            padding: clamp(3rem, 8vw, 5rem) 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: relative;
+            z-index: 4;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: clamp(1rem, 4vw, 2rem);
+            margin-top: 2rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: clamp(1rem, 4vw, 2rem);
+        }
+
+        .feature-icon {
+            font-size: clamp(2rem, 6vw, 3rem);
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .feature h3 {
+            margin-bottom: 1rem;
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            line-height: 1.3;
+        }
+
+        .feature p {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: clamp(2rem, 4vw, 3rem) 0 1rem;
+            position: relative;
+            z-index: 4;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .footer .logo {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 1rem;
+        }
+
+        .footer p {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            line-height: 1.5;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: white;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            width: 50px;
+            height: 50px;
+        }
+
+        .social-links a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .social-links img {
+            width: 25px;
+            height: 25px;
+            max-width: 100%;
+        }
+
+        /* Animations */
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Media Queries para responsividade extra */
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+            }
+            
+            .menu-toggle {
+                display: none;
+            }
+            
+            .nav {
+                padding: 0 2rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 0 0.5rem;
+            }
+            
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            .product-card, .feature {
+                padding: 1rem;
+            }
+        }
+
+        /* Melhorias para telas muito pequenas */
+        @media (max-width: 320px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 0.9rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Melhorias para telas muito grandes */
+        @media (min-width: 1920px) {
+            .container {
+                max-width: 1400px;
+            }
+            
+            .hero h1 {
+                font-size: 4.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video class="hero-video" autoplay muted loop playsinline>
+        <source src="ondas.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">SunStyle</div>
+            <ul class="nav-links">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#produtos">Produtos</a></li>
+                <li><a href="#personalizar">Personalizar</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+            <div class="mobile-menu" id="mobileMenu">
+                <ul>
+                    <li><a href="#home" onclick="closeMobileMenu()">Início</a></li>
+                    <li><a href="#produtos" onclick="closeMobileMenu()">Produtos</a></li>
+                    <li><a href="#personalizar" onclick="closeMobileMenu()">Personalizar</a></li>
+                    <li><a href="#sobre" onclick="closeMobileMenu()">Sobre</a></li>
+                    <li><a href="#contacto" onclick="closeMobileMenu()">Contacto</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Veste o Teu Verão</h1>
+            <p>Roupa personalizada que reflete o teu estilo único. Criada com amor, inspirada pelo sol.</p>
+            <div class="cta-buttons">
+                <a href="#personalizar" class="btn btn-primary">Personalizar Agora</a>
+                <a href="#produtos" class="btn btn-secondary">Ver Coleção</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="products" id="produtos">
+        <div class="container">
+            <h2 class="section-title">Os Nossos Produtos de Verão</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-icon">👕</div>
+                    <h3>T-Shirts Personalizadas</h3>
+                    <p>Designs únicos em tecidos frescos e confortáveis, perfeitos para os dias quentes de verão.</p>
+                    <a href="#" class="btn btn-primary">Personalizar</a>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">🩱</div>
+                    <h3>Roupa de Praia</h3>
+                    <p>Bikinis, fatos de banho e pareos com o teu toque pessoal. Destaca-te na praia!</p>
+                    <a href="#" class="btn btn-primary">Personalizar</a>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">🧢</div>
+                    <h3>Acessórios de Verão</h3>
+                    <p>Chapéus, bonés e bolsas personalizadas para completar o teu look de verão.</p>
+                    <a href="#" class="btn btn-primary">Personalizar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Porque Escolher a SunStyle?</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Design Personalizado</h3>
+                    <p>Cria designs únicos com o nosso editor online ou envia-nos as tuas ideias.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🌿</div>
+                    <h3>Materiais Sustentáveis</h3>
+                    <p>Usamos apenas tecidos de alta qualidade e eco-friendly para o teu conforto.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Entrega Rápida</h3>
+                    <p>Produção e entrega em 5-7 dias úteis em todo o território nacional.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💝</div>
+                    <h3>Garantia de Qualidade</h3>
+                    <p>Se não ficares 100% satisfeito, devolvemos o teu dinheiro.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="logo">SunStyle</div>
+            <p>Criando looks únicos para o teu verão desde 2025</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/dona_pestanasetubal/"><img src="instagram.png" alt="Instagram"></a>
+                <a href="https://www.instagram.com/dona_pestanasetubal/"><img src="tiktok.png" alt="TikTok"></a>
+                <a href="https://www.instagram.com/dona_pestanasetubal/"><img src="gmail.png" alt="Gmail"></a>
+            </div>
+            <p style="margin-top: 2rem; opacity: 0.7;">&copy; 2025 SunStyle. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Menu mobile
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.remove('active');
+        }
+
+        // Fechar menu ao clicar fora
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (!mobileMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Scroll suave para os links de navegação
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Efeito de parallax suave no hero (desabilitado em mobile para melhor performance)
+        if (window.innerWidth > 768) {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const heroContent = document.querySelector('.hero-content');
+                if (heroContent && scrolled < window.innerHeight) {
+                    heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+                }
+            });
+        }
+
+        // Animação dos cards quando entram no viewport
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observar os cards de produtos
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Detectar orientação do dispositivo e ajustar se necessário
+        window.addEventListener('orientationchange', function() {
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 100);
+        });
+
+        // Otimização para dispositivos touch
+        if ('ontouchstart' in window) {
+            document.body.classList.add('touch-device');
+        }
+    </script>
+</body>
+</html>
